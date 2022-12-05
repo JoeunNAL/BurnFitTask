@@ -2,7 +2,6 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeIcon from 'react-native-vector-icons/Entypo';
@@ -20,27 +19,52 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            if (route.name === 'Home') {
-              return <HomeIcon name="home" size={size} color={color} />;
-            } else if (route.name === 'Calendar') {
-              return <CalendarIcon name="calendar" size={size} color={color} />;
-            } else if (route.name === 'Library') {
-              return <DumbbellIcon name="dumbbell" size={size} color={color} />;
-            } else if (route.name === 'MyPage') {
-              return <UserIcon name="user" size={size} color={color} />;
-            }
-          },
+        screenOptions={() => ({
           tabBarActiveTintColor: 'black',
           tabBarInactiveTintColor: 'gray',
           headerShown: false,
         })}
       >
-        <Tab.Screen name="HOME" component={Home} />
-        <Tab.Screen name="CALENDAR" component={Calendar} />
-        <Tab.Screen name="LIBRARY" component={Library} />
-        <Tab.Screen name="MY PAGE" component={MyPage} />
+        <Tab.Screen
+          name="HOME"
+          component={Home}
+          options={{
+            tabBarLabel: 'HOME',
+            tabBarIcon: ({ color, size }) => (
+              <HomeIcon name="home" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="CALENDAR"
+          component={Calendar}
+          options={{
+            tabBarLabel: 'CALENDAR',
+            tabBarIcon: ({ color, size }) => (
+              <CalendarIcon name="calendar" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="LIBRARY"
+          component={Library}
+          options={{
+            tabBarLabel: 'LIBRARY',
+            tabBarIcon: ({ color, size }) => (
+              <DumbbellIcon name="dumbbell" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="MY PAGE"
+          component={MyPage}
+          options={{
+            tabBarLabel: 'MY PAGE',
+            tabBarIcon: ({ color, size }) => (
+              <UserIcon name="user" size={size} color={color} />
+            ),
+          }}
+        />
       </Tab.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
