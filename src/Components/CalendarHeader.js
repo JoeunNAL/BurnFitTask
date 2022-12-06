@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, StatusBar } from 'react-native';
 import ArrowIcon from 'react-native-vector-icons/AntDesign';
 
 const CalendarHeader = ({ monthString, year, changeMonthState }) => {
@@ -9,22 +9,39 @@ const CalendarHeader = ({ monthString, year, changeMonthState }) => {
     <>
       <View style={styles.container}>
         <Pressable onPress={() => changeMonthState('left')}>
-          <ArrowIcon name="left" size="20" color="blue" />
+          <ArrowIcon
+            name="left"
+            size={styles.arrowIcon.size}
+            color={styles.arrowIcon.color}
+          />
         </Pressable>
-        <View style={styles.containerText}>
-          <Text>
-            {monthString}
-            {year}
-          </Text>
+        <View style={styles.containercalenderTitle}>
+          <Text style={styles.calenderTitle}>{`${monthString} ${year}`}</Text>
         </View>
         <Pressable onPress={() => changeMonthState('right')}>
-          <ArrowIcon name="right" size="20" color="blue" />
+          <ArrowIcon
+            name="right"
+            size={styles.arrowIcon.size}
+            color={styles.arrowIcon.color}
+          />
         </Pressable>
       </View>
-      <View style={styles.days}>
-        {stringDays.map((day, idx) => (
-          <Text key={idx}>{day}</Text>
-        ))}
+      <View style={styles.daysOfWeek}>
+        {stringDays.map((day, idx) => {
+          const textStyle =
+            styles[
+              idx === 0
+                ? 'holiday'
+                : idx === stringDays.length - 1
+                ? 'saturday'
+                : 'commonday'
+            ];
+          return (
+            <Text key={idx} style={textStyle}>
+              {day}
+            </Text>
+          );
+        })}
       </View>
     </>
   );
@@ -33,19 +50,45 @@ export default CalendarHeader;
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 50,
+    marginTop: StatusBar.currentHeight + 30,
+    marginBottom: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  arrowIcon: { color: '#54b7ec', size: 15 },
+  containercalenderTitle: {
+    flexDirection: 'row',
+    marginVertical: 3,
+    marginHorizontal: 3,
+  },
+  calenderTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    justifyContent: 'center',
+  },
+  daysOfWeek: {
+    marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  containerText: {
-    // fontWeight: 'bold',
-    // backgroundColor: 'red',
+  commonday: {
+    width: 30,
+    textAlign: 'center',
+    fontSize: 13,
+    fontWeight: '500',
+    color: 'lightgray',
   },
-  days: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'powderblue',
+  holiday: {
+    width: 30,
+    textAlign: 'center',
+    fontSize: 13,
+    color: 'red',
+  },
+  saturday: {
+    width: 30,
+    textAlign: 'center',
+    fontSize: 13,
+    color: '#54b7ec',
   },
 });

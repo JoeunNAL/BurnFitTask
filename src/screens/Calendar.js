@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import CalendarBody from '../Components/CalendarBody';
 import CalendarHeader from '../Components/CalendarHeader';
 
 const Calendar = () => {
   const date = new Date();
   const thisYear = date.getFullYear();
-  const thisMonth = date.getMonth() + 1; // 0~11 +1
+  const thisMonth = date.getMonth() + 1; // 0~11 + 1
 
   const [month, setMonth] = useState(thisMonth);
   const [year, setYear] = useState(thisYear);
@@ -39,7 +39,7 @@ const Calendar = () => {
   }, [month, year]);
 
   return (
-    <>
+    <View style={styles.calendarContainer}>
       <CalendarHeader
         monthString={monthString}
         year={year}
@@ -48,18 +48,16 @@ const Calendar = () => {
         changeMonthState={changeMonthState}
       />
       <CalendarBody daysInMonth={daysInMonth} />
-    </>
+    </View>
   );
 };
 export default Calendar;
 
 const styles = StyleSheet.create({
-  container: {
+  calendarContainer: {
+    backgroundColor: 'white',
     flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    padding: 15,
   },
 });
 

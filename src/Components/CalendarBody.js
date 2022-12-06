@@ -1,31 +1,76 @@
 import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import ArrowIcon from 'react-native-vector-icons/AntDesign';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
 const CalendarBody = ({ daysInMonth }) => {
+  const firstDayThisMonth = daysInMonth.indexOf(1);
+  let firstDayNextMonth = daysInMonth.lastIndexOf(1);
+
+  if (firstDayNextMonth === firstDayThisMonth) {
+    firstDayNextMonth = -1;
+  }
+
   return (
-    <View style={styles.body}>
-      {daysInMonth.map((number, idx) => {
+    <View>
+      <FlatList
+        columnWrapperStyle={styles.calendarRows}
+        keyExtractor={(item, index) => `${index}keystring`}
+        numColumns={7}
+        data={daysInMonth}
+        renderItem={({ item, index }) => {
+          const dayCSS =
+            styles[
+              index < firstDayThisMonth ||
+              (index >= firstDayNextMonth && firstDayNextMonth !== -1)
+                ? 'otherMonth'
+                : 'thisMonth'
+            ];
+          return (
+            <Text style={dayCSS}>
+              {item}
+            </Text>
+          );
+        }}
+      />
+      {/* {daysInMonth.map((number, index) => {
+        const dayCSS =
+          styles[
+            index < firstDayThisMonth ||
+            (index >= firstDayNextMonth && firstDayNextMonth !== -1)
+              ? 'otherMonth'
+              : 'thisMonth'
+          ];
+
         return (
-          <Text key={idx} style={styles.text}>
+          <Text
+            key={index}
+            style={dayCSS}
+          >
             {number}
           </Text>
         );
-      })}
+      })} */}
     </View>
   );
 };
 export default CalendarBody;
 
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+  calendarRows: {
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    marginTop: 10,
   },
-  text: {
-    backgroundColor: 'red',
-    margin: 5,
+  thisMonth: {
+    // borderWidth: 1,
+    width: 28,
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  otherMonth: {
+    // borderWidth: 1,
+    color: 'lightgray',
+    width: 28,
+    fontSize: 16,
+    textAlign: 'center',
   },
 });

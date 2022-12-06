@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import HomeIcon from 'react-native-vector-icons/Entypo';
-import CalendarIcon from 'react-native-vector-icons/AntDesign';
+import CalendarIcon from 'react-native-vector-icons/Ionicons';
 import DumbbellIcon from 'react-native-vector-icons/FontAwesome5';
 import UserIcon from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -21,8 +21,9 @@ export default function App() {
       <Tab.Navigator
         screenOptions={() => ({
           tabBarActiveTintColor: 'black',
-          tabBarInactiveTintColor: 'gray',
+          tabBarInactiveTintColor: 'lightgray',
           headerShown: false,
+          tabBarStyle: { marginBottom: 13 },
         })}
       >
         <Tab.Screen
@@ -31,7 +32,7 @@ export default function App() {
           options={{
             tabBarLabel: 'HOME',
             tabBarIcon: ({ color, size }) => (
-              <HomeIcon name="home" size={size} color={color} />
+              <HomeIcon name="home" size={20} color={color} />
             ),
           }}
         />
@@ -40,9 +41,9 @@ export default function App() {
           component={Calendar}
           options={{
             tabBarLabel: 'CALENDAR',
-            tabBarIcon: ({ color, size }) => (
-              <CalendarIcon name="calendar" size={size} color={color} />
-            ),
+            tabBarIcon: ({ color, size }) => {
+              return <CalendarIcon name="calendar" size={20} color={color} />;
+            },
           }}
         />
         <Tab.Screen
@@ -51,7 +52,7 @@ export default function App() {
           options={{
             tabBarLabel: 'LIBRARY',
             tabBarIcon: ({ color, size }) => (
-              <DumbbellIcon name="dumbbell" size={size} color={color} />
+              <DumbbellIcon name="dumbbell" size={20} color={color} />
             ),
           }}
         />
@@ -61,7 +62,7 @@ export default function App() {
           options={{
             tabBarLabel: 'MY PAGE',
             tabBarIcon: ({ color, size }) => (
-              <UserIcon name="user" size={size} color={color} />
+              <UserIcon name="user" size={20} color={color} />
             ),
           }}
         />
