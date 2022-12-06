@@ -1,13 +1,22 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 
 const CalendarBody = ({ daysInMonth }) => {
+  const [pickIndex, setPickIndex] = useState();
   const firstDayThisMonth = daysInMonth.indexOf(1);
   let firstDayNextMonth = daysInMonth.lastIndexOf(1);
 
   if (firstDayNextMonth === firstDayThisMonth) {
     firstDayNextMonth = -1;
   }
+
+  const pressDayHandler = idx => {
+    setPickIndex(idx);
+  };
+
+  useEffect(() => {
+    setPickIndex();
+  }, [daysInMonth]);
 
   return (
     <View>
@@ -17,17 +26,23 @@ const CalendarBody = ({ daysInMonth }) => {
         numColumns={7}
         data={daysInMonth}
         renderItem={({ item, index }) => {
-          const dayCSS =
-            styles[
-              index < firstDayThisMonth ||
-              (index >= firstDayNextMonth && firstDayNextMonth !== -1)
-                ? 'otherMonth'
-                : 'thisMonth'
-            ];
+          const dayCSS = [
+            styles.thisMonth,
+            index < firstDayThisMonth ||
+            (index >= firstDayNextMonth && firstDayNextMonth !== -1)
+              ? styles.otherMonth
+              : null,
+            index === pickIndex ? styles.circle : null,
+          ];
+
           return (
-            <Text style={dayCSS}>
-              {item}
-            </Text>
+            <Pressable
+              onPress={e => {
+                return pressDayHandler(index);
+              }}
+            >
+              <Text style={dayCSS}>{item}</Text>
+            </Pressable>
           );
         }}
       />
@@ -57,20 +72,23 @@ export default CalendarBody;
 const styles = StyleSheet.create({
   calendarRows: {
     justifyContent: 'space-between',
-    marginBottom: 5,
-    marginTop: 10,
+    marginBottom: 7,
+    marginTop: 7,
   },
   thisMonth: {
-    // borderWidth: 1,
-    width: 28,
+    paddingTop: 4,
+    width: 30,
+    height: 30,
     textAlign: 'center',
     fontSize: 16,
   },
   otherMonth: {
-    // borderWidth: 1,
     color: 'lightgray',
-    width: 28,
-    fontSize: 16,
-    textAlign: 'center',
+  },
+  circle: {
+    borderWidth: 1,
+    borderRadius: 30 / 2,
+    borderColor: 'blue',
+    fontWeight: '700',
   },
 });
