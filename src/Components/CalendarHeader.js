@@ -8,7 +8,10 @@ const CalendarHeader = ({ monthString, year, changeMonthState }) => {
   return (
     <>
       <View style={styles.container}>
-        <Pressable onPress={() => changeMonthState('left')}>
+        <Pressable
+          onPress={() => changeMonthState('left')}
+          style={styles.leftButtonContainer}
+        >
           <ArrowIcon
             name="left"
             size={styles.arrowIcon.size}
@@ -18,7 +21,10 @@ const CalendarHeader = ({ monthString, year, changeMonthState }) => {
         <View style={styles.containercalenderTitle}>
           <Text style={styles.calenderTitle}>{`${monthString} ${year}`}</Text>
         </View>
-        <Pressable onPress={() => changeMonthState('right')}>
+        <Pressable
+          onPress={() => changeMonthState('right')}
+          style={[styles.leftButtonContainer, styles.rightButtonContainer]}
+        >
           <ArrowIcon
             name="right"
             size={styles.arrowIcon.size}
@@ -28,14 +34,12 @@ const CalendarHeader = ({ monthString, year, changeMonthState }) => {
       </View>
       <View style={styles.daysOfWeek}>
         {stringDays.map((day, idx) => {
-          const textStyle =
-            styles[
-              idx === 0
-                ? 'holiday'
-                : idx === stringDays.length - 1
-                ? 'saturday'
-                : 'commonday'
-            ];
+          const textStyle = [
+            styles.commonday,
+            idx === 0 ? styles.holiday : null,
+            idx === stringDays.length - 1 ? styles.saturday : null,
+          ];
+
           return (
             <Text key={idx} style={textStyle}>
               {day}
@@ -51,10 +55,18 @@ export default CalendarHeader;
 const styles = StyleSheet.create({
   container: {
     marginTop: StatusBar.currentHeight + 30,
-    marginBottom: 15,
+    // marginBottom: 15,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'baseline',
     justifyContent: 'space-between',
+  },
+  leftButtonContainer: {
+    // backgroundColor: 'red',
+    width: 40,
+    paddingBottom: 20,
+  },
+  rightButtonContainer: {
+    alignItems: 'flex-end',
   },
   arrowIcon: { color: '#54b7ec', size: 15 },
   containercalenderTitle: {
@@ -76,19 +88,12 @@ const styles = StyleSheet.create({
     width: 30,
     textAlign: 'center',
     fontSize: 13,
-    fontWeight: '500',
     color: 'lightgray',
   },
   holiday: {
-    width: 30,
-    textAlign: 'center',
-    fontSize: 13,
     color: 'red',
   },
   saturday: {
-    width: 30,
-    textAlign: 'center',
-    fontSize: 13,
     color: '#54b7ec',
   },
 });
