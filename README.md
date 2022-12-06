@@ -1,8 +1,8 @@
 # BurnFitTask
 
-#### 실행방법
-1. `npm install`
-2. `npm start`
+### 설치 및 실행방법
+1. 터미널에서 해당 디렉토리로 이동 후 `npm install`
+2. `npm start`으로 expo 실행
 3. 휴대폰에 expo go 어플 설치
 4. 터미널의 QR코드로 휴대폰의 카메라를 통해 접속
 
