@@ -22,7 +22,7 @@ const CalendarBody = ({ daysInMonth }) => {
     <View>
       <FlatList
         columnWrapperStyle={styles.calendarRows}
-        keyExtractor={(item, index) => `${index}keystring`}
+        keyExtractor={(item, index) => `${index}${Math.random()}`}
         numColumns={7}
         data={daysInMonth}
         renderItem={({ item, index }) => {
